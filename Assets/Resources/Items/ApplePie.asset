@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a80d4ea2130cb643b34de90cc82ef66, type: 3}
+  m_Name: ApplePie
+  m_EditorClassIdentifier: Assembly-CSharp::CopGameDev.LaughingFoxTest.Items.ItemData
+  <ItemName>k__BackingField: "Jab\u0142ecznik"
+  <Description>k__BackingField: Dobry, staropolski, babciny sernik
+  <Category>k__BackingField: 3
+  <Icon>k__BackingField: {fileID: 21300000, guid: d96f6aabc43915a45a05d6df44c42f8d, type: 3}
+  <Prefab>k__BackingField: {fileID: 4964671451798940777, guid: 36bbf71e49a65b14b9d87fbad0e12533, type: 3}
+  <Stats>k__BackingField:
+    <Damage>k__BackingField: 3
+    <Defense>k__BackingField: 0
+    <Strength>k__BackingField: 1
+    <Dexterity>k__BackingField: 0
+    <Intelligence>k__BackingField: 0
