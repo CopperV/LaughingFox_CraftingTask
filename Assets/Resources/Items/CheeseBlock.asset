@@ -18,8 +18,8 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 21300000, guid: 8f8e130d3d0c9c247b78be9804308002, type: 3}
   <Prefab>k__BackingField: {fileID: 7261840040522936186, guid: cb90429c68cc5894d97ffcd0301288f0, type: 3}
   <Stats>k__BackingField:
-    <Damage>k__BackingField: 3
-    <Defense>k__BackingField: 0
-    <Strength>k__BackingField: 1
-    <Dexterity>k__BackingField: 0
-    <Intelligence>k__BackingField: 0
+    <Damage>k__BackingField: 0
+    <Defense>k__BackingField: 4
+    <Strength>k__BackingField: 0
+    <Dexterity>k__BackingField: 2
+    <Intelligence>k__BackingField: 5

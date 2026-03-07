@@ -1,4 +1,3 @@
-using CopGameDev.LaughingFoxTest.Items;
 using System.Collections.Generic;
 using UnityEngine;
 
