@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace CopGameDev.LaughingFoxTest.Items
 {
     public enum ItemCategory

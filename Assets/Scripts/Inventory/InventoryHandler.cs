@@ -5,7 +5,6 @@ namespace CopGameDev.LaughingFoxTest.Inventory
 {
     public class InventoryHandler : MonoBehaviour
     {
-        [SerializeReference]
         private IInventory inventory = new DefaultInventory();
 
         [SerializeField]

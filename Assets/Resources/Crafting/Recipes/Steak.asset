@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9d79fd80d4f3f4aa2c4553372aaac0, type: 3}
+  m_Name: Steak
+  m_EditorClassIdentifier: Assembly-CSharp::CopGameDev.LaughingFoxTest.Crafting.CraftingRecipe
+  <Category>k__BackingField: {fileID: 11400000, guid: 7b314ac06db29ed4ab6c18e57743c81a, type: 2}
+  <Ingredients>k__BackingField:
+  - <Item>k__BackingField: {fileID: 11400000, guid: d0e4ceea2c59e654992ff2510c5c6ea8, type: 2}
+    amount: 4
+  <Result>k__BackingField:
+    <Item>k__BackingField: {fileID: 11400000, guid: 96070c02ffc7acb4fbd96308f765bad7, type: 2}
+    amount: 4
