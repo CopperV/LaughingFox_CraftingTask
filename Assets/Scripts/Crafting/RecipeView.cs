@@ -1,10 +1,14 @@
 using CopGameDev.LaughingFoxTest.Crafting;
 using CopGameDev.LaughingFoxTest.Inventory;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class RecipeView : MonoBehaviour
 {
+    [SerializeField]
+    private RectTransform root;
+
     [SerializeField]
     private CanvasGroup canvasGroup;
 
@@ -46,10 +50,14 @@ public class RecipeView : MonoBehaviour
             craftingService.Craft(inventory, recipe);
             craftButton.interactable = craftingService.CanCraft(inventory, recipe);
         });
+
+        StartCoroutine(LayoutRebuildCoroutine());
     }
 
     public void Hide()
     {
+        StopAllCoroutines();
+
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
@@ -64,5 +72,14 @@ public class RecipeView : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    private IEnumerator LayoutRebuildCoroutine()
+    {
+        LayoutRebuilder.ForceRebuildLayoutImmediate(root);
+        yield return null;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(root);
+        yield return null;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(root);
     }
 }

@@ -1,5 +1,4 @@
 using CopGameDev.LaughingFoxTest.Inventory;
-using UnityEngine;
 
 namespace CopGameDev.LaughingFoxTest.Crafting
 {

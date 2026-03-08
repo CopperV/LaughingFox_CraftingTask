@@ -1,5 +1,4 @@
 using CopGameDev.LaughingFoxTest.Items;
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;

@@ -41,7 +41,7 @@ namespace CopGameDev.LaughingFoxTest.Inventory
 
         private void Start()
         {
-            escapeInput.action.performed += _ => HidePanel(activePanel);
+            escapeInput.action.performed += OnEscape;
             escapeInput.action.Enable();
 
             foreach (var panel in panels)
@@ -54,7 +54,7 @@ namespace CopGameDev.LaughingFoxTest.Inventory
         private void OnDestroy()
         {
             escapeInput.action.Disable();
-            escapeInput.action.performed -= _ => HidePanel(activePanel);
+            escapeInput.action.performed -= OnEscape;
 
             foreach (var panel in panels)
             {
@@ -62,6 +62,8 @@ namespace CopGameDev.LaughingFoxTest.Inventory
                 panel.InputAction.action.performed -= _ => TogglePanel(panel.Panel);
             }
         }
+
+        private void OnEscape(InputAction.CallbackContext context) => HidePanel(activePanel);
 
         private void TogglePanel(IUIPanel panel)
         {

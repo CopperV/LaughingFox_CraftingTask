@@ -10,6 +10,7 @@ namespace CopGameDev.LaughingFoxTest.Inventory
     {
         private Dictionary<ItemData, int> items = new();
 
+        private List<InventoryItem> cachedItems = new();
         public IReadOnlyCollection<InventoryItem> Items => items.Select(kvp => new InventoryItem(kvp.Key, kvp.Value)).ToList();
 
         public event Action InventoryModifyEvent;
@@ -37,6 +38,8 @@ namespace CopGameDev.LaughingFoxTest.Inventory
             int currentAmount = items.GetValueOrDefault(item, 0);
             items[item] = currentAmount + amount;
 
+            UpdateCachedItems();
+
             InventoryModifyEvent?.Invoke();
             ItemAddedToInventoryEvent?.Invoke(new(item, amount));
 
@@ -52,10 +55,18 @@ namespace CopGameDev.LaughingFoxTest.Inventory
             if(items[item] <= 0)
                 items.Remove(item);
 
+            UpdateCachedItems();
+
             InventoryModifyEvent?.Invoke();
             ItemRemovedFromInventoryEvent?.Invoke(new(item, amount));
 
             return true;
+        }
+
+        private void UpdateCachedItems()
+        {
+            cachedItems.Clear();
+            cachedItems.AddRange(items.Select(kvp => new InventoryItem(kvp.Key, kvp.Value)).ToList());
         }
     }
 }

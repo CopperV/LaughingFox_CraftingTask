@@ -1,6 +1,8 @@
 using CopGameDev.LaughingFoxTest.Inventory;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace CopGameDev.LaughingFoxTest.Crafting
 {
@@ -54,11 +56,16 @@ namespace CopGameDev.LaughingFoxTest.Crafting
         private void ShowView()
         {
             RefreshView();
+
+            StartCoroutine(LayoutRebuildCoroutine());
+
             OnShow?.Invoke();
         }
 
         private void HideView()
         {
+            StopAllCoroutines();
+
             ClearView();
             OnHide?.Invoke();
         }
@@ -75,6 +82,17 @@ namespace CopGameDev.LaughingFoxTest.Crafting
         {
             recipeView.Hide();
             recipeListView.Clear();
+        }
+
+        private IEnumerator LayoutRebuildCoroutine()
+        {
+            var rect = transform as RectTransform;
+
+            LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
+            yield return null;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
+            yield return null;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
         }
     }
 }
