@@ -35,7 +35,6 @@ namespace CopGameDev.LaughingFoxTest.Inventory
         {
             inventoryHandler.Inventory.InventoryModifyEvent += UpdateView;
 
-
             ToggleView(false);
             HideView();
         }

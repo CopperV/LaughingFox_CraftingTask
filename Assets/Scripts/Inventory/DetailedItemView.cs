@@ -37,6 +37,8 @@ namespace CopGameDev.LaughingFoxTest.Inventory
 
         public void Show(ItemData itemData)
         {
+            ClearView();
+
             this.itemData = itemData;
 
             itemNameLabel.text = itemData.ItemName;
