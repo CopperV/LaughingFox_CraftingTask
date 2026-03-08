@@ -7,6 +7,12 @@ namespace CopGameDev.LaughingFoxTest.Crafting
     public class CraftingPanelView : UIPanelBase, IInventoryView
     {
         [SerializeField]
+        private InventoryHandler inventoryHandler;
+
+        [SerializeField]
+        private CraftingHandler craftingHandler;
+
+        [SerializeField]
         private CraftingCategory category;
 
         [SerializeField]
@@ -62,7 +68,7 @@ namespace CopGameDev.LaughingFoxTest.Crafting
             ClearView();
 
             var recipes = RecipesManager.Instance.GetRecipesByCategory(category);
-            recipeListView.Setup(recipes, recipe => recipeView.Show(recipe, detailedItemView), detailedItemView);
+            recipeListView.Setup(recipes, recipe => recipeView.Show(recipe, inventoryHandler.Inventory, craftingHandler.CraftngService, detailedItemView), detailedItemView);
         }
 
         private void ClearView()

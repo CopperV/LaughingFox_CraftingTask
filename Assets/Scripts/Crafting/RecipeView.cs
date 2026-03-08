@@ -20,10 +20,10 @@ public class RecipeView : MonoBehaviour
     [SerializeField]
     private Button craftButton;
 
-    public void Show(CraftingRecipe recipe, DetailedItemView itemView = null)
+    public void Show(CraftingRecipe recipe, IInventory inventory, ICraftingService craftingService, DetailedItemView itemView = null)
     {
         Clear();
-
+        
         resultItemView.Show(recipe.Result.Item);
 
         recipe.Ingredients.ForEach(ingredient =>
@@ -35,6 +35,17 @@ public class RecipeView : MonoBehaviour
         canvasGroup.alpha = 1f;
         canvasGroup.interactable = true;
         canvasGroup.blocksRaycasts = true;
+
+        craftButton.gameObject.SetActive(true);
+        craftButton.interactable = craftingService.CanCraft(inventory, recipe);
+        craftButton.onClick.AddListener(() =>
+        {
+            if (!craftingService.CanCraft(inventory, recipe))
+                return;
+
+            craftingService.Craft(inventory, recipe);
+            craftButton.interactable = craftingService.CanCraft(inventory, recipe);
+        });
     }
 
     public void Hide()
@@ -43,6 +54,7 @@ public class RecipeView : MonoBehaviour
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 
+        craftButton.gameObject.SetActive(false);
         craftButton.interactable = false;
     }
 

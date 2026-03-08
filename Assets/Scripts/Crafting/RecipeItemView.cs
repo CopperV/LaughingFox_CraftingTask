@@ -58,17 +58,12 @@ namespace CopGameDev.LaughingFoxTest.Crafting
         {
             if (detailedItemView != null)
                 detailedItemView.Show(recipe.Result.Item);
-
-            //originalSprite = backgroundImage.sprite;
-            //backgroundImage.sprite = hoverSprite;
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (detailedItemView != null)
                 detailedItemView.Hide();
-
-            //backgroundImage.sprite = originalSprite;
         }
     }
 }
