@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UI;
 
 namespace CopGameDev.LaughingFoxTest.Inventory
@@ -27,10 +28,23 @@ namespace CopGameDev.LaughingFoxTest.Inventory
         [SerializeField]
         private ItemStatView itemStatViewPrefab;
 
+        private ObjectPool<ItemStatView> statPool;
+        private List<ItemStatView> activeStats = new();
+
         private ItemData itemData;
 
         private void Awake()
         {
+            statPool = new(
+                createFunc: () => Instantiate(itemStatViewPrefab, itemStatsContainer),
+                actionOnGet: slot => slot.gameObject.SetActive(true),
+                actionOnRelease: slot => slot.gameObject.SetActive(false),
+                actionOnDestroy: slot => Destroy(slot.gameObject),
+                collectionCheck: false,
+                defaultCapacity: 0,
+                maxSize: 5
+            );
+
             Hide();
         }
 
@@ -47,11 +61,11 @@ namespace CopGameDev.LaughingFoxTest.Inventory
             var stats = itemData.Stats;
             List<(string, int)> statsToDisplay = new();
 
-            if (stats.Damage != 0) statsToDisplay.Add(("Obra¿enia", stats.Damage));
-            if (stats.Defense != 0) statsToDisplay.Add(("Obrona", stats.Defense));
-            if (stats.Strength != 0) statsToDisplay.Add(("Si³a", stats.Strength));
-            if (stats.Dexterity != 0) statsToDisplay.Add(("Zrêcznoœæ", stats.Dexterity));
-            if (stats.Intelligence != 0) statsToDisplay.Add(("Inteligencja", stats.Intelligence));
+            TryAddStat("Obra¿enia", stats.Damage);
+            TryAddStat("Obrona", stats.Defense);
+            TryAddStat("Si³a", stats.Strength);
+            TryAddStat("Zrêcznoœæ", stats.Dexterity);
+            TryAddStat("Inteligencja", stats.Intelligence);
 
             statsToDisplay.ForEach(stat =>
             {
@@ -60,6 +74,17 @@ namespace CopGameDev.LaughingFoxTest.Inventory
             });
 
             StartCoroutine(LayoutRebuildCoroutine());
+        }
+
+        private void TryAddStat(string label, int value)
+        {
+            if (value == 0)
+                return;
+
+            var statView = statPool.Get();
+            statView.transform.SetAsLastSibling();
+            statView.Setup(label, value.ToString());
+            activeStats.Add(statView);
         }
 
         private IEnumerator LayoutRebuildCoroutine()
@@ -84,10 +109,11 @@ namespace CopGameDev.LaughingFoxTest.Inventory
 
         private void ClearView()
         {
-            foreach (Transform child in itemStatsContainer)
+            foreach (var slot in activeStats)
             {
-                Destroy(child.gameObject);
+                statPool.Release(slot);
             }
+            activeStats.Clear();
         }
     }
 }

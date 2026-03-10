@@ -30,10 +30,12 @@ namespace CopGameDev.LaughingFoxTest.Crafting
 
         private CraftingRecipe recipe;
         private DetailedItemView detailedItemView;
+        private Action<CraftingRecipe> onClick;
 
         public void Setup(CraftingRecipe recipe, Action<CraftingRecipe> onClick, DetailedItemView itemView = null)
         {
             this.detailedItemView = itemView;
+            this.onClick = onClick;
 
             this.recipe = recipe;
             var item = recipe.Result.Item;
@@ -51,7 +53,7 @@ namespace CopGameDev.LaughingFoxTest.Crafting
                 itemQuantityRect.gameObject.SetActive(false);
             }
 
-            button.onClick.AddListener(() => onClick?.Invoke(recipe));
+            button.onClick.AddListener(OnClick);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -65,5 +67,12 @@ namespace CopGameDev.LaughingFoxTest.Crafting
             if (detailedItemView != null)
                 detailedItemView.Hide();
         }
+
+        public void ResetView()
+        {
+            button.onClick.RemoveListener(OnClick);
+        }
+
+        private void OnClick() => onClick?.Invoke(recipe);
     }
 }

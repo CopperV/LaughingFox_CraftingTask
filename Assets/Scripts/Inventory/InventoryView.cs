@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Pool;
 
 namespace CopGameDev.LaughingFoxTest.Inventory
 {
@@ -29,7 +31,23 @@ namespace CopGameDev.LaughingFoxTest.Inventory
         [SerializeField]
         private UnityEvent OnHide;
 
+        private ObjectPool<InventorySlot> slotPool;
+        private List<InventorySlot> activeSlots = new();
+
         private bool toggled = false;
+
+        private void Awake()
+        {
+            slotPool = new(
+                createFunc: () => Instantiate(slotPrefab, slotsContainer),
+                actionOnGet: slot => slot.gameObject.SetActive(true),
+                actionOnRelease: slot => slot.gameObject.SetActive(false),
+                actionOnDestroy: slot => Destroy(slot.gameObject),
+                collectionCheck: false,
+                defaultCapacity: 50,
+                maxSize: int.MaxValue
+            );
+        }
 
         private void Start()
         {
@@ -42,6 +60,7 @@ namespace CopGameDev.LaughingFoxTest.Inventory
         private void OnDestroy()
         {
             inventoryHandler.Inventory.InventoryModifyEvent -= UpdateView;
+            slotPool.Clear();
         }
 
         private void UpdateView()
@@ -86,17 +105,20 @@ namespace CopGameDev.LaughingFoxTest.Inventory
 
             foreach (var item in items)
             {
-                var newSlot = Instantiate(slotPrefab, slotsContainer);
+                var newSlot = slotPool.Get();
+                newSlot.transform.SetAsLastSibling();
                 newSlot.SetupSlot(item, detailedItemView);
+                activeSlots.Add(newSlot);
             }
         }
 
         private void ClearView()
         {
-            foreach (Transform child in slotsContainer)
+            foreach (var slot in activeSlots)
             {
-                Destroy(child.gameObject);
+                slotPool.Release(slot);
             }
+            activeSlots.Clear();
         }
     }
 }

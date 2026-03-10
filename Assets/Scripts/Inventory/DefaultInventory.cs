@@ -11,7 +11,7 @@ namespace CopGameDev.LaughingFoxTest.Inventory
         private Dictionary<ItemData, int> items = new();
 
         private List<InventoryItem> cachedItems = new();
-        public IReadOnlyCollection<InventoryItem> Items => items.Select(kvp => new InventoryItem(kvp.Key, kvp.Value)).ToList();
+        public IReadOnlyCollection<InventoryItem> Items => cachedItems;
 
         public event Action InventoryModifyEvent;
         public event Action<InventoryItem> ItemAddedToInventoryEvent;
