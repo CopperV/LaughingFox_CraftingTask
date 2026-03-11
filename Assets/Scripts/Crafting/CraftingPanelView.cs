@@ -64,6 +64,9 @@ namespace CopGameDev.LaughingFoxTest.Crafting
 
         private void HideView()
         {
+            if (detailedItemView != null)
+                detailedItemView.Hide();
+
             StopAllCoroutines();
 
             ClearView();

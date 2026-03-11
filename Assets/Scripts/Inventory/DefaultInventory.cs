@@ -8,10 +8,8 @@ namespace CopGameDev.LaughingFoxTest.Inventory
     [Serializable]
     public class DefaultInventory : IInventory
     {
-        private Dictionary<ItemData, int> items = new();
-
-        private List<InventoryItem> cachedItems = new();
-        public IReadOnlyCollection<InventoryItem> Items => cachedItems;
+        private Dictionary<ItemData, InventoryItem> items = new();
+        public IReadOnlyCollection<InventoryItem> Items => items.Values;
 
         public event Action InventoryModifyEvent;
         public event Action<InventoryItem> ItemAddedToInventoryEvent;
@@ -24,7 +22,7 @@ namespace CopGameDev.LaughingFoxTest.Inventory
             if (amount < 1)
                 return false;
 
-            return items.TryGetValue(item, out int currentAmount) && currentAmount >= amount;
+            return items.TryGetValue(item, out var invItem) && invItem.amount >= amount;
         }
 
         public bool AddItem(ItemData item, int amount = 1)
@@ -35,10 +33,15 @@ namespace CopGameDev.LaughingFoxTest.Inventory
             if(!CanAddItem(item, amount))
                 return false;
 
-            int currentAmount = items.GetValueOrDefault(item, 0);
-            items[item] = currentAmount + amount;
-
-            UpdateCachedItems();
+            if(items.TryGetValue(item, out var invItem))
+            {
+                items[item].amount += amount;
+            }
+            else
+            {
+                invItem = new InventoryItem(item, amount);
+                items[item] = invItem;
+            }
 
             InventoryModifyEvent?.Invoke();
             ItemAddedToInventoryEvent?.Invoke(new(item, amount));
@@ -51,22 +54,14 @@ namespace CopGameDev.LaughingFoxTest.Inventory
             if(!HasItem(item, amount))
                 return false;
 
-            items[item] -= amount;
-            if(items[item] <= 0)
+            items[item].amount -= amount;
+            if(items[item].amount <= 0)
                 items.Remove(item);
-
-            UpdateCachedItems();
 
             InventoryModifyEvent?.Invoke();
             ItemRemovedFromInventoryEvent?.Invoke(new(item, amount));
 
             return true;
-        }
-
-        private void UpdateCachedItems()
-        {
-            cachedItems.Clear();
-            cachedItems.AddRange(items.Select(kvp => new InventoryItem(kvp.Key, kvp.Value)).ToList());
         }
     }
 }

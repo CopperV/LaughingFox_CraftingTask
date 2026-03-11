@@ -59,19 +59,12 @@ namespace CopGameDev.LaughingFoxTest.Inventory
             itemIcon.sprite = itemData.Icon;
 
             var stats = itemData.Stats;
-            List<(string, int)> statsToDisplay = new();
 
             TryAddStat("Obra¿enia", stats.Damage);
             TryAddStat("Obrona", stats.Defense);
             TryAddStat("Si³a", stats.Strength);
             TryAddStat("Zrêcznoœæ", stats.Dexterity);
             TryAddStat("Inteligencja", stats.Intelligence);
-
-            statsToDisplay.ForEach(stat =>
-            {
-                var statView = Instantiate(itemStatViewPrefab, itemStatsContainer);
-                statView.Setup(stat.Item1, stat.Item2.ToString());
-            });
 
             StartCoroutine(LayoutRebuildCoroutine());
         }

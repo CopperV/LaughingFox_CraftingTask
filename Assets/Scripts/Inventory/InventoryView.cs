@@ -90,6 +90,9 @@ namespace CopGameDev.LaughingFoxTest.Inventory
 
         private void HideView()
         {
+            if (detailedItemView != null)
+                detailedItemView.Hide();
+
             ClearView();
             OnHide?.Invoke();
         }

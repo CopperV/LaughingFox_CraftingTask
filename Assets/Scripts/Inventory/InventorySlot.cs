@@ -27,6 +27,16 @@ namespace CopGameDev.LaughingFoxTest.Inventory
 
         private Sprite originalSprite;
 
+        private void Start()
+        {
+            originalSprite = backgroundImage.sprite;
+        }
+
+        private void OnDisable()
+        {
+            backgroundImage.sprite = originalSprite;
+        }
+
         public void SetupSlot(InventoryItem item, DetailedItemView itemView = null)
         {
             this.item = item;
